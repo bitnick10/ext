@@ -1,17 +1,11 @@
 #ifndef EXT__IMAGE__IMAGE_H
 #define EXT__IMAGE__IMAGE_H
 
+#include "../macro.h"
+
 class Image {
-protected:
-    int width, height;
-public:
-    //properties
-    int Width() const {
-        return this->width;
-    }
-    int Height() const {
-        return this->height;
-    }
+    PROTECTED_FILED_PUBLIC_GETTER(int, width, getWidth);
+    PROTECTED_FILED_PUBLIC_GETTER(int, height, getHeight);
 };
 
 #endif

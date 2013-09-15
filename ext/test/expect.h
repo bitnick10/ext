@@ -1,5 +1,5 @@
-#ifndef __EXPECT_H__
-#define __EXPECT_H__
+#ifndef EXT__EXPECT_H
+#define EXT__EXPECT_H
 
 #include <sstream>
 

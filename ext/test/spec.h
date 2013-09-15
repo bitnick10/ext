@@ -1,5 +1,5 @@
-#ifndef __SPEC_H__
-#define __SPEC_H__
+#ifndef EXT__SPEC_H
+#define EXT__SPEC_H
 
 #include <list>
 #include <iostream>

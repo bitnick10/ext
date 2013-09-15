@@ -1,7 +1,5 @@
-#ifndef __DESCRIBE_H__
-#define __DESCRIBE_H__
-
-typedef void (*fp)();
+#ifndef EXT__DESCRIBE_H
+#define EXT__DESCRIBE_H
 
 template<typename F>
 void Describe(std::string description,F f){

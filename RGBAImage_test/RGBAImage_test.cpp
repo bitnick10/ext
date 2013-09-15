@@ -21,8 +21,8 @@ void main() {
         Describe("when read lena.bmp finished", []() {
             RGBAImage<byte> image("TestResources/Lena.bmp");
             It("should be able to get width and height", [&image]() {
-                Expect(image.Height()).ToBe(512);
-                Expect(image.Width()).ToBe(512);
+                Expect(image.getHeight()).ToBe(512);
+                Expect(image.getWidth()).ToBe(512);
             });
             It("should be able to get pixel", [&image]() {
                 Expect(image.GetPixel(0, 0)).ToBe(RGBAColor<byte>(225, 138, 128, 255));

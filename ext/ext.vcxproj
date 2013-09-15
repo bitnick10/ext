@@ -16,7 +16,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -63,12 +63,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="console.h" />
+    <ClInclude Include="ext.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="image\Coord.h" />
     <ClInclude Include="image\Image.h" />
     <ClInclude Include="image\RGBAColor.h" />
     <ClInclude Include="image\RGBAImage.h" />
     <ClInclude Include="log.h" />
+    <ClInclude Include="macro.h" />
     <ClInclude Include="test.h" />
     <ClInclude Include="test\describe.h" />
     <ClInclude Include="test\expect.h" />

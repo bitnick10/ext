@@ -7,10 +7,11 @@
 #include "RGBAColor.h"
 #include "Coord.h"
 #include "Image.h"
+#include "../ext.h"
 using namespace std;
 
 template<typename T>
-class RGBAImage :public Image{
+class RGBAImage : public Image {
     typedef T value_type ;
     T *data; //origin upper left
 public:
@@ -126,8 +127,8 @@ public:
 public:
     Coord<short> IndexOf(RGBAImage& subImage) {
         Coord<short> coord (0, 0);
-        for( ; coord.Y < Height() - subImage.Height() + 1; coord.Y++) {
-            for(coord.X = 0 ; coord.X < Width() - subImage.Width() + 1; coord.X++) {
+        for( ; coord.Y < getHeight() - subImage.getHeight() + 1; coord.Y++) {
+            for(coord.X = 0 ; coord.X < getWidth() - subImage.getWidth() + 1; coord.X++) {
                 if(ContainsAt(coord, subImage)) {
                     return coord;
                 }
@@ -140,7 +141,7 @@ public:
         RGBAColor<T>* pSub;
         RGBAColor<T>* p;
 
-        for(subY = 0; subY < subImage.Height(); subY++) {
+        for(subY = 0; subY < subImage.getHeight(); subY++) {
             p = ( RGBAColor<T>*) dataPtr(coord.X, coord.Y + subY);
             pSub = ( RGBAColor<T>*)subImage.dataPtr(0, subY);
             for(int x = 0; x < subImage.height; x++) {
