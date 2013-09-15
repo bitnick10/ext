@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ext", "ext\ext.vcxproj", "{AC9A9762-1A95-4463-AC2E-950FBE8325ED}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RGBAImage_test", "RGBAImage_test\RGBAImage_test.vcxproj", "{33115FD4-1396-46B0-91EB-5304BA1C356F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC9A9762-1A95-4463-AC2E-950FBE8325ED}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AC9A9762-1A95-4463-AC2E-950FBE8325ED}.Debug|Win32.Build.0 = Debug|Win32
+		{AC9A9762-1A95-4463-AC2E-950FBE8325ED}.Release|Win32.ActiveCfg = Release|Win32
+		{AC9A9762-1A95-4463-AC2E-950FBE8325ED}.Release|Win32.Build.0 = Release|Win32
+		{33115FD4-1396-46B0-91EB-5304BA1C356F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{33115FD4-1396-46B0-91EB-5304BA1C356F}.Debug|Win32.Build.0 = Debug|Win32
+		{33115FD4-1396-46B0-91EB-5304BA1C356F}.Release|Win32.ActiveCfg = Release|Win32
+		{33115FD4-1396-46B0-91EB-5304BA1C356F}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
