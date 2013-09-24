@@ -71,10 +71,14 @@
     <ClInclude Include="image\RGBAImage.h" />
     <ClInclude Include="log.h" />
     <ClInclude Include="macro.h" />
+    <ClInclude Include="math\Matrix.h" />
     <ClInclude Include="test.h" />
     <ClInclude Include="test\describe.h" />
     <ClInclude Include="test\expect.h" />
     <ClInclude Include="test\spec.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
