@@ -7,15 +7,15 @@ template<typename T>
 class ExpectValue {
     typedef T value_type ;
 public:
-    ExpectValue(value_type value, Spec *pSpec, std::string file, int line) {
+    ExpectValue(T& value, Spec *pSpec, std::string file, int line) {
         this->file = file;
         this->line = line;
         this->pSpec = pSpec;
-        this->value = value;
+        this->value = &value;
         this->pSpec->ExpectSum++;
     }
-    void ToBe(value_type value) {
-        if(this->value != value) {
+    void ToBe(value_type& value) {
+        if(*(this->value) != value) {
             this->pSpec->ErrorSum++;
             std::stringstream  stream1;
             std::stringstream  stream2;
@@ -35,13 +35,13 @@ private:
     std::string file;
     int line;
     Spec *pSpec;
-    value_type value;
+    T* value;
 };
 
 #define Expect(value)  expect(value,__FILE__,__LINE__)
 template<typename T>
-ExpectValue<T> expect(T value, std::string file, int line) {
-	return ExpectValue<T>(value, &Spec::Instance(), file, line);
+ExpectValue<T> expect(T& value, std::string file, int line) {
+	return ExpectValue<T>(value, Spec::getInstance(), file, line);
 }
 
 #endif

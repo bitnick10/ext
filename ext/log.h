@@ -1,7 +1,7 @@
 #ifndef EXT__LOG_H
 #define EXT__LOG_H
 
-#include "console.h"
+#include "ext.h"
 
 #include <iostream>
 

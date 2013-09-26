@@ -7,6 +7,7 @@
 #include "RGBAColor.h"
 #include "Coord.h"
 #include "Image.h"
+#include "../math/Matrix.h"
 #include "../ext.h"
 using namespace std;
 
@@ -15,16 +16,25 @@ class RGBAImage : public Image {
     typedef T value_type ;
     T *data; //origin upper left
 public:
-    //properties
-    RGBAColor<T> GetPixel(int x, int y) const {
+    RGBAColor<T> GetPixel(int x, int y) {
         T *p = data + 4 * (y * Image::width + x);
         return *((RGBAColor<T>*)p);
+    }
+    void SetPixel(int x, int y, RGBAColor<T>& color) {
+        RGBAImage<T> pColor = (RGBAImage<T>*) dataPtr(x, y);
+        *pColor = color;
     }
     T* dataPtr(int x, int y) const {
         return data + 4 * (y * Image::width + x);
     }
 public:
     //constructor
+    RGBAImage(int width, int height) {
+        this->width = width;
+        this->height = height;
+        int size = width * height * sizeof(T);
+        this->data = (T*)malloc(size);
+    }
     RGBAImage(char* filename) {
         ReadFromFile(filename);
     }
@@ -153,6 +163,45 @@ public:
             }
         }
         return true;
+    }
+public:
+    void SaveAs(char* filenmae) {
+        BITMAPFILEHEADER bitmapFileHeader;
+        BITMAPFILEHEADER* pBitmapFileHeader = &bitmapFileHeader;
+        pBitmapFileHeader->bfType				= MAKEWORD('B', 'M');
+        pBitmapFileHeader->bfSize				= 54 +  this->height * this->width * this->spectrum;
+        pBitmapFileHeader->bfReserved1		= 0;
+        pBitmapFileHeader->bfReserved2		= 0;
+        pBitmapFileHeader->bfOffBits			= 54;
+        BITMAPINFO bitmapInfo;
+        BITMAPINFO* pBitmapInfo = &bitmapInfo;
+        int spectrum = 4;
+        pBitmapInfo->bmiHeader.biSize						= 40;
+        pBitmapInfo->bmiHeader.biWidth					= this->width;
+        pBitmapInfo->bmiHeader.biHeight					= this->height;
+        pBitmapInfo->bmiHeader.biPlanes					= 0;//bitmap.bmPlanes;
+        pBitmapInfo->bmiHeader.biBitCount				= spectrum * 8; //bitmap.bmBitsPixel;
+        pBitmapInfo->bmiHeader.biCompression			= 0;
+        pBitmapInfo->bmiHeader.biSizeImage				= this->height * this->width * spectrum; // bitmap.bmWidthBytes * bitmap.bmHeight;
+        pBitmapInfo->bmiHeader.biXPelsPerMeter		= 0;
+        pBitmapInfo->bmiHeader.biYPelsPerMeter		= 0;
+        pBitmapInfo->bmiHeader.biClrUsed					= 0;
+        pBitmapInfo->bmiHeader.biClrImportant			= 0;
+
+        fstream file(filename, ios::out | ios::binary);
+        file.write((char*)pBitmapFileHeader, sizeof(BITMAPFILEHEADER));
+        file.write((char*)pBitmapInfo, pBitmapInfo->bmiHeader.biSize);
+        file.write((char*)data, this->height * this->width * this->spectrum);
+        file.close();
+    }
+    RGBAImage MatrixFilter(Matrix<double> filter) {
+        RGBAImage image(this->width, this->height);
+        T* p = this->data;
+        for(int y = 1; y < this->height - 1; y++) {
+            for(int x = 1; x < this->width - 1; x++) {
+
+            }
+        }
     }
 };
 

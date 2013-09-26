@@ -1,5 +1,4 @@
-#include <test.h>
-#include <image.h>
+#include <ext/ext.h>
 
 #include <iterator>
 #include <iostream>

@@ -1,12 +1,8 @@
-#ifndef EXT__TEST_H
-#define EXT__TEST_H
+#ifndef EXT__TEST__BENCHMARK_H
+#define EXT__TEST__BENCHMARK_H
 
 #include <iostream>
 #include <Windows.h>
-
-#include "test/spec.h"
-#include "test/describe.h"
-#include "test/expect.h"
 
 #define Benchmark(description,lambda)     \
 	do{                                                              \

@@ -4,7 +4,7 @@
 #include <list>
 #include <iostream>
 #include <string>
-#include "../console.h"
+#include "../ext.h"
 enum  class FunctionType {
     Describe,
     It
@@ -23,10 +23,18 @@ public:
 	int ErrorSum;
 	int ExpectSum;
 public:
-	static Spec& Instance(){
-		static Spec instance;
-		return instance;
-	}
+	// singleton property
+    static Spec * getInstance() {
+        if( 0 == instance.get()) {
+            instance.reset(new Spec);
+        }
+        return instance.get();
+    }
+private:
+	// singleton field
+    friend class auto_ptr<Spec>;
+    static auto_ptr<Spec> instance;
+public:
     Spec() {
         this->levelNow = 0;
 		this->ErrorSum=0;
@@ -90,5 +98,6 @@ public:
     }
 };
 
+auto_ptr<Spec> Spec::instance;
 
 #endif

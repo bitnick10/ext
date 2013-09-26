@@ -11,12 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{AC9A9762-1A95-4463-AC2E-950FBE8325ED}</ProjectGuid>
-    <RootNamespace>ext</RootNamespace>
+    <ProjectGuid>{DA8F7E70-D743-4A17-B11D-AB20D371B54F}</ProjectGuid>
+    <RootNamespace>Matrix_test</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -43,6 +43,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -62,23 +63,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ext.h" />
-    <ClInclude Include="image\Coord.h" />
-    <ClInclude Include="image\Image.h" />
-    <ClInclude Include="image\RGBAColor.h" />
-    <ClInclude Include="image\RGBAImage.h" />
-    <ClInclude Include="log.h" />
-    <ClInclude Include="math\Matrix.h" />
-    <ClInclude Include="misc\console.h" />
-    <ClInclude Include="misc\error.h" />
-    <ClInclude Include="misc\macros.h" />
-    <ClInclude Include="test\benchmark.h" />
-    <ClInclude Include="test\describe.h" />
-    <ClInclude Include="test\expect.h" />
-    <ClInclude Include="test\spec.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Matrix_test.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

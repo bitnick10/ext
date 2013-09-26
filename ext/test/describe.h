@@ -3,21 +3,23 @@
 
 template<typename F>
 void Describe(std::string description,F f){
-	Spec::Instance().LevelUp();
-	Spec::Instance().AddApec(description,FunctionType::Describe);
+	Spec* spec = Spec::getInstance();
+	spec->LevelUp();
+	spec->AddApec(description,FunctionType::Describe);
 	f();
-	Spec::Instance().LevelDown();
-	if (Spec::Instance().GetLevel()==0){
-		Spec::Instance().Print();
-		Spec::Instance().Conclusion();
+	spec->LevelDown();
+	if (spec->GetLevel()==0){
+		spec->Print();
+		spec->Conclusion();
 	}
 }
 template<typename F>
 void It(std::string description,F f){
-	Spec::Instance().LevelUp();
-	Spec::Instance().AddApec(description,FunctionType::It);
+	Spec* spec = Spec::getInstance();
+	spec->LevelUp();
+	spec->AddApec(description,FunctionType::It);
 	f();
-	Spec::Instance().LevelDown();
+	spec->LevelDown();
 }
 
 #endif

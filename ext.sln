@@ -5,6 +5,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ext", "ext\ext.vcxproj", "{
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RGBAImage_test", "RGBAImage_test\RGBAImage_test.vcxproj", "{33115FD4-1396-46B0-91EB-5304BA1C356F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Matrix_test", "Matrix_test\Matrix_test.vcxproj", "{DA8F7E70-D743-4A17-B11D-AB20D371B54F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -19,6 +21,10 @@ Global
 		{33115FD4-1396-46B0-91EB-5304BA1C356F}.Debug|Win32.Build.0 = Debug|Win32
 		{33115FD4-1396-46B0-91EB-5304BA1C356F}.Release|Win32.ActiveCfg = Release|Win32
 		{33115FD4-1396-46B0-91EB-5304BA1C356F}.Release|Win32.Build.0 = Release|Win32
+		{DA8F7E70-D743-4A17-B11D-AB20D371B54F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DA8F7E70-D743-4A17-B11D-AB20D371B54F}.Debug|Win32.Build.0 = Debug|Win32
+		{DA8F7E70-D743-4A17-B11D-AB20D371B54F}.Release|Win32.ActiveCfg = Release|Win32
+		{DA8F7E70-D743-4A17-B11D-AB20D371B54F}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
