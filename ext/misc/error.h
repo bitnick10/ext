@@ -1,6 +1,7 @@
 #ifndef EXT_MISC_ERROR_H
 #define EXT_MISC_ERROR_H
 #include <memory>
+#include <iostream>
 using namespace std;
 
 class Error final {
@@ -12,28 +13,30 @@ public:
         }
         return instance.get();
     }
+
 private:
     // singleton field
     friend class auto_ptr<Error>;
     static auto_ptr<Error> instance;
 private:
-	int unhandled_error_sum;
-	string error_message;
+    int unhandled_error_sum;
+    string error_message;
 public:
     string& GetLastError() {
         return error_message;
     }
-    void SetLastError(string& errorMessage) {
+    void SetLastError(string errorMessage) {
         this->unhandled_error_sum = 1;
-		this->error_message=errorMessage;
+        this->error_message = errorMessage;
     }
 public:
-    Error()  : unhandled_error_sum(0){
+    Error()  : unhandled_error_sum(0) {
         //cout << "Create Singleton" << endl;
     }
     virtual ~Error() {
         //cout << "Destroy Singleton" << endl;
     }
+private:
 };
 
 auto_ptr<Error> Error::instance;

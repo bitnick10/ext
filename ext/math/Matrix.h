@@ -20,25 +20,42 @@ public:
     }
 public:
     // constrcutor
-    Matrix() {
+    error() Matrix() {
         this->width = 0;
         this->height = 0;
         this->data = nullptr;
     }
-    Matrix(int width, int height) {
-        this->width = width;
-        this->height = height;
-        this->data = (T*) malloc(width * height * sizeof(T));
+    error() Matrix(Matrix& matrix) {
+        this->width = matrix.width;
+        this->height = matrix.height;
+        int size = this->width * this->height * sizeof(T);
+        this->data = (T*)malloc(size);
+        if(this->data == nullptr) {
+            Error::getInstance()->SetLastError("Matrix malloc error");
+            return ;
+        }
+        memcpy(this->data, matrix.data, size);
     }
-    Matrix(T* data, int width, int height) error() {
+    error() Matrix(int width, int height)  {
         this->width = width;
         this->height = height;
-        this->data = (T*)malloc(width * height * sizeof(T));
-		if(this->data==nullptr){
-			Error::getInstance()->SetLastError("Matrix malloc error");
-			return ;
-		}
-        memcpy(this->data, data, sizeof(T)*this->width * this->height);
+        int size = this->width * this->height * sizeof(T);
+        this->data = (T*)malloc(size);
+        if(this->data == nullptr) {
+            Error::getInstance()->SetLastError("Matrix malloc error");
+            return ;
+        }
+    }
+    error() Matrix(T* data, int width, int height)  {
+        this->width = width;
+        this->height = height;
+        int size = this->width * this->height * sizeof(T);
+        this->data = (T*)malloc(size);
+        if(this->data == nullptr) {
+            Error::getInstance()->SetLastError("Matrix malloc error");
+            return ;
+        }
+        memcpy(this->data, data, size);
     }
     ~Matrix() {
         if(this->data != nullptr) {
@@ -47,7 +64,7 @@ public:
         }
     }
 public:
-    bool operator ==(Matrix& right) {
+    bool operator ==(Matrix& right)  {
         if(this->height == right.height && this->width == right.width && 0 == memcmp(this->data, right.data, sizeof(T)*this->width * this->height)) {
             return true;
         } else {
@@ -61,10 +78,10 @@ public:
 
     friend ostream& operator<<(ostream& o, const Matrix& matrix) {
         T* data = matrix.data;
-        FOR( matrix.width * matrix.height ) {
+        FOR( matrix.width * matrix.height - 1 ) {
             o << *data++ << ",";
-            o << ",";
         }
+        o << *data++;
         return o;
     }
 public:

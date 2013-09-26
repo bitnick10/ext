@@ -14,13 +14,13 @@ public:
         this->value = &value;
         this->pSpec->ExpectSum++;
     }
-    void ToBe(value_type& value) {
+    void ToBe(T& value) {
         if(*(this->value) != value) {
             this->pSpec->ErrorSum++;
             std::stringstream  stream1;
             std::stringstream  stream2;
             stream1 << file << " (" << line << ")";
-            stream2 << "expect " << this->value << " tobe " << value;
+            stream2 << "expect " << *(this->value) << " tobe " << value;
             pSpec->AddError(stream1.str());
             pSpec->AddError(stream2.str());
         }
