@@ -81,7 +81,7 @@ public:
         return !(*this == right);
     }
     Matrix operator =(const Matrix& right) {
-		this->~Matrix();
+        this->~Matrix();
         this->width = right.width;
         this->height = right.height;
         int size = this->width * this->height * sizeof(T);
@@ -163,20 +163,26 @@ public:
         return ret;
     }
     static T Det(Matrix<T>&matrix) {
-        if( matrix.getHeight() == 2) {
-            return matrix.data[0] * matrix.data[3] - matrix.data[1] * matrix.data[2];
+        if( matrix.getHeight() <= 2) {
+            if(matrix.getHeight() == 2) {
+                return matrix.data[0] * matrix.data[3] - matrix.data[1] * matrix.data[2];
+            } else if(matrix.getHeight() == 1) {
+                return matrix.data[0];
+            }
         }
         T* p = matrix.data;
         T ret = *p * Cofactor(matrix, 0, 0);
         for(int x = 1; x < matrix.getWidth(); x++) {
-            ret += *p * Cofactor(matrix, 0, x);
+            ret += *++p * Cofactor(matrix, x, 0);
         }
+        return ret;
     }
     static T Cofactor(Matrix<T>& matrix, int x, int y) {
+        Matrix<T> minor = Minor(matrix, x, y);
         if(x + y % 2 == 1) {
-            return -1 * Det(Minor(matrix, x, y));
+            return -1 * Det(minor);
         } else {
-            return Det(Minor(matrix, x, y));
+            return Det(minor);
         }
     }
     //template<typename T1, typename T2>
