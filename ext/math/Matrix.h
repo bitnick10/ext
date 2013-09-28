@@ -65,7 +65,6 @@ public:
     }
     ~Matrix() {
         if(this->data != nullptr) {
-            cout << *this << " deconstruct" << endl;
             free(this->data);
             data = nullptr;
         }

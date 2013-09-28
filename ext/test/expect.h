@@ -8,7 +8,6 @@ class ExpectValue {
     typedef T value_type ;
 public:
     ExpectValue(ExpectValue& ev) {
-		cout << "expect value construct by copy\n";
         this->file = ev.file;
         this->line = ev.line;
         this->pSpec = ev.pSpec;
@@ -18,19 +17,15 @@ public:
 		return ExpectValue(ev);
 	}
     ExpectValue(T value, Spec *pSpec, std::string file, int line) {
-        cout << "expect value\n";
         this->file = file;
         this->line = line;
         this->pSpec = pSpec;
         this->value = value;
         this->pSpec->ExpectSum++;
-        cout << "expect value end\n";
     }
     ~ExpectValue() {
-        cout << "~ExpectValue  \n";
     }
     void ToBe(T value) {
-        cout << "tobe  \n";
         if(this->value != value) {
             this->pSpec->ErrorSum++;
             std::stringstream  stream1;
@@ -57,7 +52,6 @@ private:
 #define Expect(value)  expect(value,__FILE__,__LINE__)
 template<typename T>
 ExpectValue<T> expect(T value, std::string file, int line) {
-    cout << "expect function\n";
     ExpectValue<T> ret(value, Spec::getInstance(), file, line) ;
     return ret;
 }
