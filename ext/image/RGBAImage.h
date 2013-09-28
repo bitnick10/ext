@@ -11,6 +11,8 @@
 #include "../ext.h"
 using namespace std;
 
+NS_EXT_BEGIN
+
 template<typename T>
 class RGBAImage : public Image {
     typedef T value_type ;
@@ -205,5 +207,5 @@ public:
     }
 };
 
-
+NS_EXT_END
 #endif

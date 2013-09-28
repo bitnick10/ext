@@ -4,6 +4,7 @@
 #include "misc/error.h"
 #include "misc/macros.h"
 #include "misc/console.h"
+#include "misc/log.h"
 
 //image headers
 #include "image/RGBAColor.h"

@@ -5,6 +5,8 @@
 #include <iostream>
 #include <string>
 #include "../ext.h"
+
+NS_EXT_BEGIN
 enum  class FunctionType {
     Describe,
     It
@@ -20,10 +22,10 @@ class Spec {
     std::list<SpecInfo> specList;
     int levelNow;
 public:
-	int ErrorSum;
-	int ExpectSum;
+    int ErrorSum;
+    int ExpectSum;
 public:
-	// singleton property
+    // singleton property
     static Spec * getInstance() {
         if( 0 == instance.get()) {
             instance.reset(new Spec);
@@ -31,14 +33,14 @@ public:
         return instance.get();
     }
 private:
-	// singleton field
+    // singleton field
     friend class auto_ptr<Spec>;
     static auto_ptr<Spec> instance;
 public:
     Spec() {
         this->levelNow = 0;
-		this->ErrorSum=0;
-		this->ExpectSum=0;
+        this->ErrorSum = 0;
+        this->ExpectSum = 0;
     }
     void LevelUp() {
         this->levelNow++;
@@ -74,18 +76,13 @@ public:
             Console::ResetColor();
         }
     }
-	void Conclusion(){
-		if(this->ErrorSum==0){
-			Console::SetConsoleTextColor(Console::Color::GREEN);
-			std::cout<<ExpectSum<<" all passed"<<std::endl;
-			  Console::ResetColor();
-		}else{
-			Console::SetConsoleTextColor(Console::Color::RED);
-			std::cout<<ErrorSum<<" failed"<<std::endl;
-			  Console::ResetColor();
-		}
-
-	}
+    void Conclusion() {
+        if(this->ErrorSum == 0) {
+            console << green << ExpectSum << " all passed\n" << white;
+        } else {
+            console << red << ErrorSum << " failed\n" << white;
+        }
+    }
     void AddError(std::string error) {
         specList.back().errors.push_back(error);
     }
@@ -99,5 +96,5 @@ public:
 };
 
 auto_ptr<Spec> Spec::instance;
-
+NS_EXT_END
 #endif

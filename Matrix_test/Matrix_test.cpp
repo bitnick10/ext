@@ -1,7 +1,9 @@
 #include <ext/ext.h>
-
+using namespace ext;
 void debug() {
+	ext::log<<trace<<"sdf\n";
 }
+
 void main() {
     debug();
     Describe("Matrix", []() {

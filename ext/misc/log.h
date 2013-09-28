@@ -4,14 +4,25 @@
 #include "console.h"
 
 #include <iostream>
-
+NS_EXT_BEGIN
 class Log {
 public:
-	void Trace(char* message){
-		Console::SetConsoleTextColor(Console::Color::BLUE);
-		printf("%s\n",message);
-		Console::ResetColor();
-	}
+    Log& operator<<(Log & (*func)(Log&)) {
+        func(*this);
+        return *this;
+    }
+    template <typename T>
+    Log& operator<<(T message) {
+        console << message;
+        return *this;
+    }
 };
 
+Log log;
+
+inline Log& trace(Log& log) {
+    console << blue;
+    return log;
+}
+NS_EXT_END
 #endif

@@ -1,6 +1,9 @@
 #ifndef EXT__MACRO_H
 #define EXT__MACRO_H
 
+#define NS_EXT_BEGIN namespace ext {
+#define NS_EXT_END }
+
 #define error()   
 
 #define PRIVATE_FILED_PUBLIC_PROPERTY(type, name, getter, setter)\

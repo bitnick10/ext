@@ -2,7 +2,7 @@
 #define EXT__EXPECT_H
 
 #include <sstream>
-
+NS_EXT_BEGIN
 template<typename T>
 class ExpectValue {
     typedef T value_type ;
@@ -55,5 +55,5 @@ ExpectValue<T> expect(T value, std::string file, int line) {
     ExpectValue<T> ret(value, Spec::getInstance(), file, line) ;
     return ret;
 }
-
+NS_EXT_END
 #endif

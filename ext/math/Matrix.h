@@ -5,6 +5,8 @@
 #include <iostream>
 using namespace std;
 
+NS_EXT_BEGIN
+
 template<typename T>
 class Matrix {
 public:
@@ -202,4 +204,5 @@ public:
     //	return ret;
     //}
 };
+NS_EXT_END
 #endif
