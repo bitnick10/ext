@@ -10,31 +10,35 @@ NS_EXT_BEGIN
 
 template<typename T>
 class Matrix {
+    PROTECTED_FILED_PUBLIC_GETTER(int , width, getWidth);
+    PROTECTED_FILED_PUBLIC_GETTER(int , height, getHeight);
 public:
-    PRIVATE_FILED_PUBLIC_GETTER(int , width, getWidth);
-    PRIVATE_FILED_PUBLIC_GETTER(int , height, getHeight);
     T* data;
 public:
-    T Get() {
+    T GetElement() {
         return data[0];
     }
-    T Get(int x, int y) {
+    T GetElement(int x, int y) {
         return data[y * width + x];
+    }
+    T* GetDataPointer(int x, int y) {
+        return data +  (y * this->width + x) ;
     }
     T* GetDataPointer() {
         return data;
+    }
+    void SetElement(int x, int y, T& value) {
+        T* p = GetDataPointer(x, y);
+        *p = value;
     }
     bool IsSquare() const {
         return this->width == this->height;
     }
 public:
     // constrcutor
-    error() Matrix() {
-        this->width = 0;
-        this->height = 0;
-        this->data = nullptr;
+    Matrix() : width(0), height(0), data(nullptr) {
     }
-    error() Matrix(Matrix& matrix) {
+    Matrix(Matrix& matrix) {
         this->width = matrix.width;
         this->height = matrix.height;
         int size = this->width * this->height * sizeof(T);
@@ -42,14 +46,14 @@ public:
         assert(this->data != nullptr);
         memcpy(this->data, matrix.data, size);
     }
-    error() Matrix(int width, int height)  {
+    Matrix(int width, int height)  {
         this->width = width;
         this->height = height;
         int size = this->width * this->height * sizeof(T);
         this->data = (T*)malloc(size);
         assert(this->data != nullptr);
     }
-    error() Matrix(T* data, int width, int height)  {
+    Matrix(T* data, int width, int height)  {
         this->width = width;
         this->height = height;
         int size = this->width * this->height * sizeof(T);
@@ -113,7 +117,7 @@ public:
     }
     template<typename T1, typename T2>
     static Matrix<T> Product(const Matrix<T1>& a, const  Matrix<T2>& b) {
-		assert(a.getWidth() == b.getHeight());
+        assert(a.getWidth() == b.getHeight());
         Matrix<T> ret(b.getWidth(), a.getHeight());
         T1* p1 = a.data;
         T2* p2 = b.data;
@@ -137,7 +141,7 @@ public:
         return ret;
     }
     static Matrix<T> Minor(Matrix<T>&matrix, int dx, int dy) {
-		assert(matrix.IsSquare());
+        assert(matrix.IsSquare());
         Matrix<T> ret(matrix.getWidth() - 1, matrix.getHeight() - 1);
         T* p = ret.data;
         T* pm = matrix.data;
@@ -153,7 +157,7 @@ public:
         return ret;
     }
     static T Det(Matrix<T>&matrix) {
-		assert(matrix.IsSquare());
+        assert(matrix.IsSquare());
         if( matrix.getHeight() <= 2) {
             if(matrix.getHeight() == 2) {
                 return matrix.data[0] * matrix.data[3] - matrix.data[1] * matrix.data[2];
@@ -171,12 +175,26 @@ public:
         return ret;
     }
     static T Cofactor(Matrix<T>& matrix, int x, int y) {
-		assert(matrix.IsSquare());
+        assert(matrix.IsSquare());
         Matrix<T> minor = Minor(matrix, x, y);
         if(x + y % 2 == 1) {
             return -1 * Det(minor);
         } else {
             return Det(minor);
+        }
+    }
+    static Matrix<T> Sub(Matrix<T>& matrix, int ox, int oy, int width, int height) {
+        assert(ox + width <= this->width);
+        assert(oy + height <= this->height);
+        Matrix<T> ret(width, height);
+        T* p = ret.data;
+        T* dp = matrix.GetDataPointer(ox, oy);
+        for(int y = 0; y < height; y++) {
+            T* cp = dp;
+            for(int x = 0; x < width; x++) {
+                *p++ = *cp++;
+            }
+            dp += width ;
         }
     }
     //template<typename T1, typename T2>

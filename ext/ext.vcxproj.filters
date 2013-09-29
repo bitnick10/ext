@@ -32,9 +32,6 @@
     <ClInclude Include="image\RGBAColor.h">
       <Filter>image</Filter>
     </ClInclude>
-    <ClInclude Include="image\RGBAImage.h">
-      <Filter>image</Filter>
-    </ClInclude>
     <ClInclude Include="test\describe.h">
       <Filter>test</Filter>
     </ClInclude>
@@ -64,6 +61,12 @@
     </ClInclude>
     <ClInclude Include="misc\log.h">
       <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="image\RGBAImage_old.h">
+      <Filter>image</Filter>
+    </ClInclude>
+    <ClInclude Include="image\RGBAImage.h">
+      <Filter>image</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

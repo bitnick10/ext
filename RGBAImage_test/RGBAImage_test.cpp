@@ -12,10 +12,10 @@ void main() {
     Describe("RGBAImage<byte>", []() {
         It("should be able to read data from bmp file", []() {
             RGBAImage<byte> image("TestResources/rgbw_2x2.bmp");
-            Expect(image.GetPixel(0, 0)).ToBe(RGBAColor<byte>(255, 0, 0, 255));
-            Expect(image.GetPixel(1, 0)).ToBe(RGBAColor<byte>(0, 255, 0, 255));
-            Expect(image.GetPixel(0, 1)).ToBe(RGBAColor<byte>(0, 0, 255, 255));
-            Expect(image.GetPixel(1, 1)).ToBe(RGBAColor<byte>(255, 255, 255, 255));
+            Expect(image.GetElement(0, 0)).ToBe(RGBAColor<byte>(255, 0, 0, 255));
+            Expect(image.GetElement(1, 0)).ToBe(RGBAColor<byte>(0, 255, 0, 255));
+            Expect(image.GetElement(0, 1)).ToBe(RGBAColor<byte>(0, 0, 255, 255));
+            Expect(image.GetElement(1, 1)).ToBe(RGBAColor<byte>(255, 255, 255, 255));
         });
         Describe("when read lena.bmp finished", []() {
             RGBAImage<byte> image("TestResources/Lena.bmp");
@@ -24,7 +24,7 @@ void main() {
                 Expect(image.getWidth()).ToBe(512);
             });
             It("should be able to get pixel", [&image]() {
-                Expect(image.GetPixel(0, 0)).ToBe(RGBAColor<byte>(225, 138, 128, 255));
+                Expect(image.GetElement(0, 0)).ToBe(RGBAColor<byte>(225, 138, 128, 255));
             });
             It("should be able to indexof sub image", [&image]() {
                 RGBAImage<byte> sub1("TestResources/IndexOf/sub1.bmp");
