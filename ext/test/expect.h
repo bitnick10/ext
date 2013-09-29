@@ -2,7 +2,11 @@
 #define EXT__EXPECT_H
 
 #include <sstream>
+
+#include "../misc/macros.h"
+
 NS_EXT_BEGIN
+
 template<typename T>
 class ExpectValue {
     typedef T value_type ;

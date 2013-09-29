@@ -14,6 +14,10 @@ struct RGBAColor {
 		this->B=B;
 		this->A=A;
 	}
+	T ToGray(){
+		T gray = (R*38+G*75+B*15)>>7;
+		return gray;
+	}
     friend ostream& operator<<(ostream& o , const RGBAColor& color) {
         if(	typeid(color.A) == typeid(byte)) {
             o << (short)color.R << "," << (short)color.G << "," << (short)color.B << "," << (short)color.A;

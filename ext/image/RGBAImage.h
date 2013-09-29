@@ -1,38 +1,25 @@
-#ifndef EXT__IMAGE__RGBA_IMAGE_H11
+#ifndef EXT__IMAGE__RGBA_IMAGE_H
 #define EXT__IMAGE__RGBA_IMAGE_H
 
 #include <iostream>
 #include <fstream>
 #include <Windows.h>
-#include "RGBAColor.h"
-#include "Coord.h"
-#include "Image.h"
-#include "../math/Matrix.h"
-#include "../ext.h"
 using namespace std;
+
+#include "../misc/macros.h"
+#include "../math/Matrix.h"
 
 NS_EXT_BEGIN
 
 template<typename T>
 class RGBAImage : public Matrix<RGBAColor<T>> {
     typedef Matrix<RGBAColor<T>> Base;
-    typedef RGBAColor<T> CT;
+    typedef RGBAColor<T> Color;
 public:
-	//constructor
-	RGBAImage(RGBAImage& image) {
-        this->width = image.width;
-        this->height = image.height;
-        int size = width * height * sizeof(CT);
-        this->data = (T*)malloc(size);
-        assert(this->data);
-        memcpy(this->data, image.data, size);
+    //constructor
+    RGBAImage(RGBAImage& image): Base(image) {
     }
-	    RGBAImage(int width, int height) {
-        this->width = width;
-        this->height = height;
-  int size = width * height * sizeof(CT);
-        this->data = (T*)malloc(size);
-        assert(this->data);
+    RGBAImage(int width, int height): Base(width, height) {
     }
     RGBAImage(char* filename) {
         ReadFromFile(filename);
@@ -50,7 +37,8 @@ public:
         BITMAPFILEHEADER bmpFileHeader;
         BITMAPINFO bmpInfo;
         fstream file;
-        file.open(filename, ios::in | ios::binary);
+        file.open(filename, ios::in | ios::binary );
+		assert(file);
         if(!file)
             return ;
         file.read((char*)&bmpFileHeader, sizeof(BITMAPFILEHEADER));
@@ -61,8 +49,8 @@ public:
         int spectrum = bmpInfo.bmiHeader.biBitCount / 8;
         int readOffset = 4 - spectrum * Matrix::width & 0x3;
 
-        int  dataSize = Base::width * Base::height  * sizeof(CT) ;
-        Matrix::data = (CT*)malloc(dataSize);
+        int  dataSize = Base::width * Base::height  * sizeof(Color) ;
+        Matrix::data = (Color*)malloc(dataSize);
         assert(Matrix::data);
 
         //read file into memory
@@ -72,7 +60,7 @@ public:
         char* pImage = imageData;
 
         // only support byte now
-        assert(typeid(CT) == typeid(RGBAColor<byte>));
+        assert(typeid(Color) == typeid(RGBAColor<byte>));
 
         if(spectrum == 3)
             for(int y = 0; y < Base::height ; y++) {
@@ -111,35 +99,6 @@ public:
         return ;
     }
 public:
-    Coord<short> IndexOf(RGBAImage& subImage) {
-        Coord<short> coord (0, 0);
-        for( ; coord.Y < getHeight() - subImage.getHeight() + 1; coord.Y++) {
-            for(coord.X = 0 ; coord.X < getWidth() - subImage.getWidth() + 1; coord.X++) {
-                if(ContainsAt(coord, subImage)) {
-                    return coord;
-                }
-            }
-        }
-        return Coord<short>(-1, -1);
-    }
-    bool ContainsAt(Coord<short> coord, RGBAImage& subImage) {
-        INT32 subY;
-        RGBAColor<T>* pSub;
-        RGBAColor<T>* p;
-
-        for(subY = 0; subY < subImage.getHeight(); subY++) {
-            p = ( RGBAColor<T>*) Base::GetDataPointer(coord.X, coord.Y + subY);
-            pSub = ( RGBAColor<T>*)subImage.GetDataPointer(0, subY);
-            for(int x = 0; x < subImage.height; x++) {
-                if(*p != *pSub) {
-                    return false;
-                }
-                p++;
-                pSub++;
-            }
-        }
-        return true;
-    }
 };
 
 NS_EXT_END

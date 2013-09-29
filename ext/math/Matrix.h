@@ -1,10 +1,11 @@
 #ifndef EXT__MATH__MATRIX_H
 #define EXT__MATH__MATRIX_H
 
-#include "../ext.h"
 #include <assert.h>
 #include <iostream>
 using namespace std;
+
+#include "../image/Coord.h"
 
 NS_EXT_BEGIN
 
@@ -51,7 +52,7 @@ public:
         this->height = height;
         int size = this->width * this->height * sizeof(T);
         this->data = (T*)malloc(size);
-        assert(this->data != nullptr);
+        assert(this->data);
     }
     Matrix(T* data, int width, int height)  {
         this->width = width;
@@ -78,7 +79,7 @@ public:
     bool operator !=(Matrix& right) {
         return !(*this == right);
     }
-    Matrix operator =(const Matrix& right) {
+    Matrix& operator =(const Matrix& right) {
         this->~Matrix();
         this->width = right.width;
         this->height = right.height;
@@ -98,7 +99,34 @@ public:
     }
 public:
     // algorithm
-
+    Coord<short> IndexOf(Matrix<T>& sub) {
+        Coord<short> coord (0, 0);
+        for( ; coord.Y < getHeight() - sub.getHeight() + 1; coord.Y++) {
+            for(coord.X = 0 ; coord.X < getWidth() - sub.getWidth() + 1; coord.X++) {
+                if(ContainsAt(coord, sub)) {
+                    return coord;
+                }
+            }
+        }
+        return Coord<short>(-1, -1);
+    }
+    bool ContainsAt(Coord<short> coord, Matrix<T>& sub) {
+        INT32 subY;
+        T* pSub;
+        T* p;
+        for(subY = 0; subY < sub.getHeight(); subY++) {
+            p = GetDataPointer(coord.X, coord.Y + subY);
+            pSub = sub.GetDataPointer(0, subY);
+            for(int x = 0; x < sub.height; x++) {
+                if(*p != *pSub) {
+                    return false;
+                }
+                p++;
+                pSub++;
+            }
+        }
+        return true;
+    }
 public:
     // static algorithm
     template<typename T1, typename T2>

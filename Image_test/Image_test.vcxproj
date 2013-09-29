@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{33115FD4-1396-46B0-91EB-5304BA1C356F}</ProjectGuid>
-    <RootNamespace>RGBAImage_test</RootNamespace>
+    <ProjectGuid>{8E7B5308-6720-402E-8841-EFE01CFAD04D}</ProjectGuid>
+    <RootNamespace>Image_test</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -56,6 +56,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(SolutionDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -64,7 +65,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="RGBAImage_test.cpp" />
+    <ClCompile Include="Image_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ext\ext.vcxproj">

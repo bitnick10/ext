@@ -4,9 +4,11 @@
 #include <list>
 #include <iostream>
 #include <string>
-#include "../ext.h"
+
+#include "../misc/macros.h"
 
 NS_EXT_BEGIN
+
 enum  class FunctionType {
     Describe,
     It
@@ -41,6 +43,21 @@ public:
         this->levelNow = 0;
         this->ErrorSum = 0;
         this->ExpectSum = 0;
+    }
+    ~Spec() {
+        Spec* spec = Spec::getInstance();
+        if (spec->GetLevel() == 0) {
+            spec->Print();
+            spec->Conclusion();
+            spec->Reset();
+        }
+    }
+    void Reset() {
+        specList.clear();
+        this->levelNow = 0;
+        this->ErrorSum = 0;
+        this->ExpectSum = 0;
+
     }
     void LevelUp() {
         this->levelNow++;

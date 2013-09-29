@@ -62,10 +62,10 @@
     <ClInclude Include="misc\log.h">
       <Filter>misc</Filter>
     </ClInclude>
-    <ClInclude Include="image\RGBAImage_old.h">
+    <ClInclude Include="image\RGBAImage.h">
       <Filter>image</Filter>
     </ClInclude>
-    <ClInclude Include="image\RGBAImage.h">
+    <ClInclude Include="image\GrayImage.h">
       <Filter>image</Filter>
     </ClInclude>
   </ItemGroup>

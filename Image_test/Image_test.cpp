@@ -4,11 +4,24 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+
 USING_NS_EXT
+
 void debug() {
 }
+
 void main() {
     debug();
+    Describe("GrayImage<byte>", []() {
+        It("should convert from RGBAImage<byte>", []() {
+            RGBAImage<byte> rgbaImage("TestResources/rgbw_2x2.bmp");
+            GrayImage<byte> grayImage = rgbaImage;
+            Expect((int)grayImage.GetElement(0, 0)).ToBe(75);
+            Expect((int)grayImage.GetElement(1, 0)).ToBe(149);
+            Expect((int)grayImage.GetElement(0, 1)).ToBe(29);
+            Expect((int)grayImage.GetElement(1, 1)).ToBe(255);
+        });
+    });
     Describe("RGBAImage<byte>", []() {
         It("should be able to read data from bmp file", []() {
             RGBAImage<byte> image("TestResources/rgbw_2x2.bmp");
@@ -36,6 +49,7 @@ void main() {
             });
         });
     });
+
     Benchmark("read lene.bmp", []() {
         RGBAImage<byte> image("TestResources/Lena.bmp");
     });
