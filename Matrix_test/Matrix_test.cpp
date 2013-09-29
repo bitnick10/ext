@@ -1,7 +1,6 @@
 #include <ext/ext.h>
-using namespace ext;
+USING_NS_EXT
 void debug() {
-	ext::log<<trace<<"sdf\n";
 }
 
 void main() {

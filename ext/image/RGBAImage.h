@@ -29,13 +29,38 @@ public:
     T* dataPtr(int x, int y) const {
         return data + 4 * (y * Image::width + x);
     }
+    RGBAImage<T> SubImage(int ox, int oy, int width, int height) {
+        assert(ox + width <= this->width);
+        assert(oy + height <= this->height);
+        RGBAImage<T> image(width, height);
+        T* p = image.data;
+        T* dp = dataPtr(ox, oy);
+        for(int y = 0; y < height; y++) {
+            T* cp = dp;
+            for(int x = 0; x < width; x++) {
+                FOR(4) {
+                    *p++ = *cp++;
+                }
+            }
+            dp += width *4;
+        }
+    }
 public:
     //constructor
+    RGBAImage(RGBAImage& image) {
+        this->width = image.width;
+        this->height = image.height;
+        int size = width * height * sizeof(T);
+        this->data = (T*)malloc(size);
+        assert(this->data);
+        memcpy(this->data, image.data, size);
+    }
     RGBAImage(int width, int height) {
         this->width = width;
         this->height = height;
         int size = width * height * sizeof(T);
         this->data = (T*)malloc(size);
+        assert(this->data);
     }
     RGBAImage(char* filename) {
         ReadFromFile(filename);

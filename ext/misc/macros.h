@@ -3,6 +3,7 @@
 
 #define NS_EXT_BEGIN namespace ext {
 #define NS_EXT_END }
+#define USING_NS_EXT using namespace ext;
 
 #define error()   
 

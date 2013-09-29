@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-
+USING_NS_EXT
 void debug() {
 }
 void main() {

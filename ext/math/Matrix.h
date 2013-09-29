@@ -2,6 +2,7 @@
 #define EXT__MATH__MATRIX_H
 
 #include "../ext.h"
+#include <assert.h>
 #include <iostream>
 using namespace std;
 
@@ -38,10 +39,7 @@ public:
         this->height = matrix.height;
         int size = this->width * this->height * sizeof(T);
         this->data = (T*)malloc(size);
-        if(this->data == nullptr) {
-            Error::getInstance()->SetLastError("Matrix malloc error");
-            return ;
-        }
+        assert(this->data != nullptr);
         memcpy(this->data, matrix.data, size);
     }
     error() Matrix(int width, int height)  {
@@ -49,20 +47,14 @@ public:
         this->height = height;
         int size = this->width * this->height * sizeof(T);
         this->data = (T*)malloc(size);
-        if(this->data == nullptr) {
-            Error::getInstance()->SetLastError("Matrix malloc error");
-            return ;
-        }
+        assert(this->data != nullptr);
     }
     error() Matrix(T* data, int width, int height)  {
         this->width = width;
         this->height = height;
         int size = this->width * this->height * sizeof(T);
         this->data = (T*)malloc(size);
-        if(this->data == nullptr) {
-            Error::getInstance()->SetLastError("Matrix malloc error");
-            return ;
-        }
+        assert(this->data != nullptr);
         memcpy(this->data, data, size);
     }
     ~Matrix() {
@@ -88,10 +80,7 @@ public:
         this->height = right.height;
         int size = this->width * this->height * sizeof(T);
         this->data = (T*)malloc(size);
-        if(this->data == nullptr) {
-            Error::getInstance()->SetLastError("Matrix malloc error");
-            return *this;
-        }
+        assert(this->data != nullptr);
         memcpy(this->data, right.data, size);
         return *this;
     }
@@ -124,9 +113,7 @@ public:
     }
     template<typename T1, typename T2>
     static Matrix<T> Product(const Matrix<T1>& a, const  Matrix<T2>& b) {
-        if(a.getWidth() != b.getHeight()    ) {
-            return Matrix<T>(nullptr, 0, 0);
-        }
+		assert(a.getWidth() == b.getHeight());
         Matrix<T> ret(b.getWidth(), a.getHeight());
         T1* p1 = a.data;
         T2* p2 = b.data;
@@ -150,6 +137,7 @@ public:
         return ret;
     }
     static Matrix<T> Minor(Matrix<T>&matrix, int dx, int dy) {
+		assert(matrix.IsSquare());
         Matrix<T> ret(matrix.getWidth() - 1, matrix.getHeight() - 1);
         T* p = ret.data;
         T* pm = matrix.data;
@@ -165,11 +153,14 @@ public:
         return ret;
     }
     static T Det(Matrix<T>&matrix) {
+		assert(matrix.IsSquare());
         if( matrix.getHeight() <= 2) {
             if(matrix.getHeight() == 2) {
                 return matrix.data[0] * matrix.data[3] - matrix.data[1] * matrix.data[2];
             } else if(matrix.getHeight() == 1) {
                 return matrix.data[0];
+            } else {
+                assert(false);
             }
         }
         T* p = matrix.data;
@@ -180,6 +171,7 @@ public:
         return ret;
     }
     static T Cofactor(Matrix<T>& matrix, int x, int y) {
+		assert(matrix.IsSquare());
         Matrix<T> minor = Minor(matrix, x, y);
         if(x + y % 2 == 1) {
             return -1 * Det(minor);

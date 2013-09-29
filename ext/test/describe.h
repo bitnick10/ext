@@ -1,6 +1,8 @@
 #ifndef EXT__DESCRIBE_H
 #define EXT__DESCRIBE_H
 
+NS_EXT_BEGIN
+
 template<typename F>
 void Describe(std::string description,F f){
 	Spec* spec = Spec::getInstance();
@@ -21,5 +23,5 @@ void It(std::string description,F f){
 	f();
 	spec->LevelDown();
 }
-
+NS_EXT_END
 #endif
