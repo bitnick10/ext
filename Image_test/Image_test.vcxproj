@@ -44,6 +44,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(SolutionDir)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/wd4430 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -66,11 +67,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Image_test.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ext\ext.vcxproj">
-      <Project>{ac9a9762-1a95-4463-ac2e-950fbe8325ed}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

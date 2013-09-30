@@ -5,8 +5,6 @@
 #define NS_EXT_END }
 #define USING_NS_EXT using namespace ext;
 
-#define error()   
-
 #define PRIVATE_FILED_PUBLIC_PROPERTY(type, name, getter, setter)\
 private: type name;\
 public:  type getter() const { return this->name; }\

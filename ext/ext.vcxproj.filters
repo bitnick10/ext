@@ -26,9 +26,6 @@
     <ClInclude Include="image\Coord.h">
       <Filter>image</Filter>
     </ClInclude>
-    <ClInclude Include="image\Image.h">
-      <Filter>image</Filter>
-    </ClInclude>
     <ClInclude Include="image\RGBAColor.h">
       <Filter>image</Filter>
     </ClInclude>

@@ -4,6 +4,10 @@
 #include <iostream>
 using namespace std;
 
+#include "../misc/macros.h"
+
+NS_EXT_BEGIN
+
 template<typename T>
 struct RGBAColor {
     T R, G, B, A;
@@ -37,4 +41,5 @@ struct RGBAColor {
         return !(*this == right);
     }
 };
+NS_EXT_END
 #endif

@@ -11,6 +11,8 @@ using namespace std;
 
 NS_EXT_BEGIN
 
+template<typename T> class GrayImage;
+
 template<typename T>
 class RGBAImage : public Matrix<RGBAColor<T>> {
     typedef Matrix<RGBAColor<T>> Base;
@@ -38,7 +40,7 @@ public:
         BITMAPINFO bmpInfo;
         fstream file;
         file.open(filename, ios::in | ios::binary );
-		assert(file);
+        assert(file);
         if(!file)
             return ;
         file.read((char*)&bmpFileHeader, sizeof(BITMAPFILEHEADER));
@@ -47,11 +49,11 @@ public:
         Base::width = bmpInfo.bmiHeader.biWidth;
         Base::height = bmpInfo.bmiHeader.biHeight;
         int spectrum = bmpInfo.bmiHeader.biBitCount / 8;
-        int readOffset = 4 - spectrum * Matrix::width & 0x3;
+        int readOffset = 4 - spectrum * Base::width & 0x3;
 
         int  dataSize = Base::width * Base::height  * sizeof(Color) ;
-        Matrix::data = (Color*)malloc(dataSize);
-        assert(Matrix::data);
+        Base::data = (Color*)malloc(dataSize);
+        assert(Base::data);
 
         //read file into memory
         char* imageData =  (char*)malloc(bmpInfo.bmiHeader.biSizeImage);
@@ -99,6 +101,23 @@ public:
         return ;
     }
 public:
+    template<typename T1>
+    RGBAImage& operator=(const GrayImage<T1>& image) {
+        Base::~Base();
+        Base::init(image.getWidth(), image.getHeight());
+        //Base(image.getWidth(),image.getHeight());
+        RGBAColor<T>* p = Base::data;
+        T1* p1 = image.data;
+        FOR(Base::width * Base::height) {
+            p->R = *p1;
+            p->G = *p1;
+            p->B = *p1;
+            p->A = (T)~(T)0;
+            p++;
+            p1++;
+        }
+		return *this;
+    }
 };
 
 NS_EXT_END

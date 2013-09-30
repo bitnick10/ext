@@ -4,6 +4,10 @@
 #include <iostream>
 using namespace std;
 
+#include "../misc/macros.h"
+
+NS_EXT_BEGIN
+
 template<typename T>
 struct Coord {
     T X, Y;
@@ -31,4 +35,5 @@ struct Coord {
         return !(*this == right);
     }
 };
+NS_EXT_END
 #endif

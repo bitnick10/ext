@@ -10,7 +10,6 @@
 #include "image/RGBAColor.h"
 #include "image/RGBAImage.h"
 #include "image/GrayImage.h"
-#include "image/Image.h"
 #include "image/Coord.h"
 
 //math headers

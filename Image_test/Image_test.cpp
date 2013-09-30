@@ -23,6 +23,15 @@ void main() {
         });
     });
     Describe("RGBAImage<byte>", []() {
+		 It("should convert from GrayImage<byte>", []() {
+            RGBAImage<byte> rgbaImage("TestResources/rgbw_2x2.bmp");
+            GrayImage<byte> grayImage = rgbaImage;
+            rgbaImage = grayImage;
+            Expect(rgbaImage.GetElement(0, 0)).ToBe(RGBAColor<byte>(75, 75, 75, 255));
+            Expect(rgbaImage.GetElement(1, 0)).ToBe(RGBAColor<byte>(149, 149, 149, 255));
+            Expect(rgbaImage.GetElement(0, 1)).ToBe(RGBAColor<byte>(29, 29, 29, 255));
+            Expect(rgbaImage.GetElement(1, 1)).ToBe(RGBAColor<byte>(255, 255, 255, 255));
+        });
         It("should be able to read data from bmp file", []() {
             RGBAImage<byte> image("TestResources/rgbw_2x2.bmp");
             Expect(image.GetElement(0, 0)).ToBe(RGBAColor<byte>(255, 0, 0, 255));
@@ -48,6 +57,7 @@ void main() {
                 Expect(image.IndexOf(sub3)).ToBe(Coord<short>(122, 237));
             });
         });
+       
     });
 
     Benchmark("read lene.bmp", []() {

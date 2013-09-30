@@ -16,16 +16,16 @@ class Matrix {
 public:
     T* data;
 public:
-    T GetElement() {
+    T GetElement() const {
         return data[0];
     }
-    T GetElement(int x, int y) {
+    T GetElement(int x, int y) const {
         return data[y * width + x];
     }
-    T* GetDataPointer(int x, int y) {
+    T* GetDataPointer(int x, int y) const {
         return data +  (y * this->width + x) ;
     }
-    T* GetDataPointer() {
+    T* GetDataPointer() const {
         return data;
     }
     void SetElement(int x, int y, T& value) {
@@ -39,29 +39,30 @@ public:
     // constrcutor
     Matrix() : width(0), height(0), data(nullptr) {
     }
-    Matrix(Matrix& matrix) {
-        this->width = matrix.width;
-        this->height = matrix.height;
-        int size = this->width * this->height * sizeof(T);
+    Matrix(Matrix& matrix) : width(matrix.width), height(matrix.height) {
+        int size = width * height * sizeof(T);
         this->data = (T*)malloc(size);
-        assert(this->data != nullptr);
+        assert(this->data);
         memcpy(this->data, matrix.data, size);
     }
-    Matrix(int width, int height)  {
+    void init(int width, int height) {
         this->width = width;
         this->height = height;
-        int size = this->width * this->height * sizeof(T);
+        int size = width * height * sizeof(T);
         this->data = (T*)malloc(size);
         assert(this->data);
     }
-    Matrix(T* data, int width, int height)  {
-        this->width = width;
-        this->height = height;
-        int size = this->width * this->height * sizeof(T);
+    Matrix(int width, int height) : width(width), height(height) {
+        int size = width * height * sizeof(T);
         this->data = (T*)malloc(size);
-        assert(this->data != nullptr);
-        memcpy(this->data, data, size);
+        assert(this->data);
     }
+    //Matrix(T* data, int width, int height) : width(width), height(height) {
+    //    int size = this->width * this->height * sizeof(T);
+    //    this->data = (T*)malloc(size);
+    //    assert(this->data);
+    //    memcpy(this->data, data, size);
+    //}
     ~Matrix() {
         if(this->data != nullptr) {
             free(this->data);
