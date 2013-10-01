@@ -11,18 +11,15 @@ using namespace std;
 
 NS_EXT_BEGIN
 
-template<typename T> class GrayImage;
-
 template<typename T>
 class RGBAImage : public Matrix<RGBAColor<T>> {
     typedef Matrix<RGBAColor<T>> Base;
     typedef RGBAColor<T> Color;
 public:
     //constructor
-    RGBAImage(RGBAImage& image): Base(image) {
-    }
-    RGBAImage(int width, int height): Base(width, height) {
-    }
+    RGBAImage(): Base() {}
+    RGBAImage(RGBAImage& image): Base(image) { }
+    RGBAImage(int width, int height): Base(width, height) { }
     RGBAImage(char* filename) {
         ReadFromFile(filename);
     }
@@ -36,28 +33,26 @@ public:
             ReadFromBmpFile(filename);
     }
     void ReadFromBmpFile(char* filename) {
-        BITMAPFILEHEADER bmpFileHeader;
-        BITMAPINFO bmpInfo;
+        BITMAPFILEHEADER file_header;
+        BITMAPINFO bitmap_info;
         fstream file;
         file.open(filename, ios::in | ios::binary );
         assert(file);
-        if(!file)
-            return ;
-        file.read((char*)&bmpFileHeader, sizeof(BITMAPFILEHEADER));
-        file.read((char*)&bmpInfo.bmiHeader, sizeof(BITMAPINFOHEADER));
+        file.read((char*)&file_header, sizeof(BITMAPFILEHEADER));
+        file.read((char*)&bitmap_info.bmiHeader, sizeof(BITMAPINFOHEADER));
 
-        Base::width = bmpInfo.bmiHeader.biWidth;
-        Base::height = bmpInfo.bmiHeader.biHeight;
-        int spectrum = bmpInfo.bmiHeader.biBitCount / 8;
-        int readOffset = 4 - spectrum * Base::width & 0x3;
+        Base::width = bitmap_info.bmiHeader.biWidth;
+        Base::height = bitmap_info.bmiHeader.biHeight;
+        int spectrum = bitmap_info.bmiHeader.biBitCount / 8;
+        int offset = 4 - spectrum * Base::width & 0x3;
 
         int  dataSize = Base::width * Base::height  * sizeof(Color) ;
         Base::data = (Color*)malloc(dataSize);
         assert(Base::data);
 
         //read file into memory
-        char* imageData =  (char*)malloc(bmpInfo.bmiHeader.biSizeImage);
-        file.seekg(bmpFileHeader.bfOffBits);
+        char* imageData =  (char*)malloc(bitmap_info.bmiHeader.biSizeImage);
+        file.seekg(file_header.bfOffBits);
         file.read((char*)imageData, dataSize);
         char* pImage = imageData;
 
@@ -76,7 +71,7 @@ public:
                     p += 4;
                     pImage += spectrum;
                 }
-                pImage += readOffset;
+                pImage += offset;
             }
         else if(spectrum == 4) {
             for(int y = 0; y < Base::height ; y++) {
@@ -89,7 +84,7 @@ public:
                     p += 4;
                     pImage += spectrum;
                 }
-                pImage += readOffset;
+                pImage += offset;
             }
         }
 
@@ -101,22 +96,51 @@ public:
         return ;
     }
 public:
-    template<typename T1>
-    RGBAImage& operator=(const GrayImage<T1>& image) {
-        Base::~Base();
-        Base::init(image.getWidth(), image.getHeight());
-        //Base(image.getWidth(),image.getHeight());
-        RGBAColor<T>* p = Base::data;
-        T1* p1 = image.data;
-        FOR(Base::width * Base::height) {
-            p->R = *p1;
-            p->G = *p1;
-            p->B = *p1;
-            p->A = (T)~(T)0;
-            p++;
-            p1++;
+    void SaveAs(char* filename) {
+        int spectrum = 3;
+        int offset = 4 - spectrum * Base::width & 0x3;
+        int data_size = width * height * spectrum + offset * height;
+
+        BITMAPFILEHEADER file_header;
+        file_header.bfType				= MAKEWORD('B', 'M');
+        file_header.bfSize				= 54 +  data_size;
+        file_header.bfReserved1		= 0;
+        file_header.bfReserved2		= 0;
+        file_header.bfOffBits			= 54;
+        BITMAPINFO bitmap_info;
+        BITMAPINFOHEADER* info_header = &bitmap_info.bmiHeader;
+        info_header->biSize						= 40;
+        info_header->biWidth					= width;
+        info_header->biHeight					= height;
+        info_header->biPlanes					= 0;
+        info_header->biBitCount				= spectrum * 8; //bitmap.bmBitsPixel;
+        info_header->biCompression			= 0;
+        info_header->biSizeImage				= data_size; // bitmap.bmWidthBytes * bitmap.bmHeight;
+        info_header->biXPelsPerMeter		= 0;
+        info_header->biYPelsPerMeter		= 0;
+        info_header->biClrUsed					= 0;
+        info_header->biClrImportant			= 0;
+
+        byte* image_data =  (byte*)malloc(data_size);
+        assert(image_data);
+        byte* writer = image_data;
+
+        fstream file(filename, ios::out | ios::binary);
+        file.write((char*)&file_header, sizeof(BITMAPFILEHEADER));
+        file.write((char*)&bitmap_info, bitmap_info.bmiHeader.biSize);
+        for(int y = 0; y < Base::height ; y++) {
+            byte* p = (byte*)Base::GetDataPointer(0, Base::height - 1 - y);
+            for(int x = 0; x < Base::width; x++) {
+                writer[2] = p[0] ;
+                writer[1] = p[1] ;
+                writer[0] = p[2] ;
+                p += 4;
+                writer += spectrum;
+            }
+            writer += offset;
         }
-		return *this;
+        file.write((char*)image_data, height * width * spectrum);
+        file.close();
     }
 };
 

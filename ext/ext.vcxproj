@@ -63,6 +63,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ext.h" />
+    <ClInclude Include="image\Conv.h" />
     <ClInclude Include="image\Coord.h" />
     <ClInclude Include="image\GrayImage.h" />
     <ClInclude Include="image\RGBAColor.h" />
@@ -79,6 +80,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

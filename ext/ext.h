@@ -11,6 +11,7 @@
 #include "image/RGBAImage.h"
 #include "image/GrayImage.h"
 #include "image/Coord.h"
+#include "image/Conv.h"
 
 //math headers
 #include "math/Matrix.h"

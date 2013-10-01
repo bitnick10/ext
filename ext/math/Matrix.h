@@ -6,6 +6,7 @@
 using namespace std;
 
 #include "../image/Coord.h"
+#include "../misc/log.h"
 
 NS_EXT_BEGIN
 
@@ -28,12 +29,25 @@ public:
     T* GetDataPointer() const {
         return data;
     }
+    int Size() {
+        return width * height * sizeof(T);
+    }
     void SetElement(int x, int y, T& value) {
         T* p = GetDataPointer(x, y);
         *p = value;
     }
     bool IsSquare() const {
         return this->width == this->height;
+    }
+    T MaxElement() {
+        T* p = data;
+        T max = *p;
+        FOR(width * height - 1) {
+            if(max < *++p) {
+                max = *p;
+            }
+        }
+        return max;
     }
 public:
     // constrcutor
@@ -49,20 +63,20 @@ public:
         this->width = width;
         this->height = height;
         int size = width * height * sizeof(T);
-        this->data = (T*)malloc(size);
-        assert(this->data);
+        data = (T*)malloc(size);
+        assert(data);
     }
     Matrix(int width, int height) : width(width), height(height) {
         int size = width * height * sizeof(T);
         this->data = (T*)malloc(size);
         assert(this->data);
     }
-    //Matrix(T* data, int width, int height) : width(width), height(height) {
-    //    int size = this->width * this->height * sizeof(T);
-    //    this->data = (T*)malloc(size);
-    //    assert(this->data);
-    //    memcpy(this->data, data, size);
-    //}
+    Matrix(T* data, int width, int height) : width(width), height(height) {
+        int size = this->width * this->height * sizeof(T);
+        this->data = (T*)malloc(size);
+        assert(this->data);
+        memcpy(this->data, data, size);
+    }
     ~Matrix() {
         if(this->data != nullptr) {
             free(this->data);
@@ -213,8 +227,8 @@ public:
         }
     }
     static Matrix<T> Sub(Matrix<T>& matrix, int ox, int oy, int width, int height) {
-        assert(ox + width <= this->width);
-        assert(oy + height <= this->height);
+        assert(ox + width <= matrix.width);
+        assert(oy + height <= matrix.height);
         Matrix<T> ret(width, height);
         T* p = ret.data;
         T* dp = matrix.GetDataPointer(ox, oy);
@@ -223,8 +237,59 @@ public:
             for(int x = 0; x < width; x++) {
                 *p++ = *cp++;
             }
-            dp += width ;
+            dp += matrix.width ;
         }
+        return ret;
+    }
+    template<typename T1, typename T2>
+    static auto ProductOne(const Matrix<T1>& m1, const  Matrix<T2>& m2) ->decltype(m1.data[0]*m2.data[0]) {
+        assert(m1.getWidth() == m2.getWidth());
+        assert(m1.getHeight() == m2.getHeight());
+        T1* p1 = m1.data;
+        T2* p2 = m2.data;
+        decltype(m1.data[0]*m2.data[0]) ret = (*p1) * (*p2);
+        FOR(m1.getWidth()*m1.getHeight() - 1) {
+            ret += (*++p1) * (*++p2);
+        }
+        return ret;
+    }
+    static Matrix<T> SobelFilterX(Matrix<T>& matrix) {
+        char mat[] = {
+            -1, 0, 1,
+            -2, 0, 2,
+            -1, 0, 1
+        };
+        Matrix<char> filter(mat, 3, 3);
+        Matrix<T> ret(matrix.width, matrix.height);
+        for(int y = 0; y < ret.height - 2; y++) {
+            for(int x = 0; x < ret.width - 2; x++) {
+                Matrix<T> sub = Sub(matrix, x, y, 3, 3);
+                int int_value = ProductOne(sub, filter) >> 3;
+                int abs_value = abs(int_value);
+                T value = (byte)(abs_value);
+                ret.SetElement(x, y, value);
+            }
+        }
+        return ret;
+    }
+    static Matrix<T> SobelFilterY(Matrix<T>& matrix) {
+        char mat[] = {
+            -1, -2, -1,
+            0, 0, 0,
+            1, 2, 1
+        };
+        Matrix<char> filter(mat, 3, 3);
+        Matrix<T> ret(matrix.width, matrix.height);
+        for(int y = 0; y < ret.height - 2; y++) {
+            for(int x = 0; x < ret.width - 2; x++) {
+                Matrix<T> sub = Sub(matrix, x, y, 3, 3);
+                int int_value = ProductOne(sub, filter) >> 3;
+                int abs_value = abs(int_value);
+                T value = (byte)(abs_value);
+                ret.SetElement(x, y, value);
+            }
+        }
+        return ret;
     }
     //template<typename T1, typename T2>
     //static Matrix<T> Conv(const Matrix<T1>& left, const  Matrix<T2>& right) ->decltype(left.dat[0]*right.data[0]) {

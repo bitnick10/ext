@@ -42,8 +42,16 @@ void main() {
                 4, 5, 6,
                 7, 8, 9
             };
-            int b[] = {5, 6, 8, 9};
             Expect(Matrix<int>::Det(Matrix<int>(a, 3, 3))).ToBe(0);
         });
+		It("should be able to get sub matrix",[](){
+			 int a[] = {
+                1, 2, 3,
+                4, 5, 6,
+                7, 8, 9
+            };
+            int b[] = {5, 6, 8, 9};
+            Expect(Matrix<int>::Sub(Matrix<int>(a, 3, 3),1,1,2,2)).ToBe(Matrix<int>( b, 2, 2));
+		});
     });
 }

@@ -65,10 +65,17 @@
     <ClInclude Include="image\GrayImage.h">
       <Filter>image</Filter>
     </ClInclude>
+    <ClInclude Include="image\Conv.h">
+      <Filter>image</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>
