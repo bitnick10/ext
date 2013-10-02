@@ -54,11 +54,26 @@ public:
     Matrix() : width(0), height(0), data(nullptr) {
     }
     Matrix(Matrix& matrix) : width(matrix.width), height(matrix.height) {
-        int size = width * height * sizeof(T);
-        this->data = (T*)malloc(size);
+        int size = Size();
+        this->data = (T*)malloc();
         assert(this->data);
         memcpy(this->data, matrix.data, size);
     }
+    Matrix(int width, int height) : width(width), height(height) {
+        int size = Size();
+        this->data = (T*)malloc(size);
+        assert(this->data);
+    }
+    Matrix(T* data, int width, int height) : width(width), height(height) {
+        int size = Size();
+        this->data = (T*)malloc(size);
+        assert(this->data);
+        memcpy(this->data, data, size);
+    }
+    ~Matrix() {
+        destruct();
+    }
+protected:
     void init(int width, int height) {
         this->width = width;
         this->height = height;
@@ -66,18 +81,15 @@ public:
         data = (T*)malloc(size);
         assert(data);
     }
-    Matrix(int width, int height) : width(width), height(height) {
-        int size = width * height * sizeof(T);
-        this->data = (T*)malloc(size);
-        assert(this->data);
-    }
-    Matrix(T* data, int width, int height) : width(width), height(height) {
-        int size = this->width * this->height * sizeof(T);
+    void init(T* data, int width, int height) {
+        this->width = width;
+        this->height = height;
+        int size = Size();
         this->data = (T*)malloc(size);
         assert(this->data);
         memcpy(this->data, data, size);
     }
-    ~Matrix() {
+    void destruct() {
         if(this->data != nullptr) {
             free(this->data);
             data = nullptr;

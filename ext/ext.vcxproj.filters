@@ -65,7 +65,10 @@
     <ClInclude Include="image\GrayImage.h">
       <Filter>image</Filter>
     </ClInclude>
-    <ClInclude Include="image\Conv.h">
+    <ClInclude Include="image\BWImage.h">
+      <Filter>image</Filter>
+    </ClInclude>
+    <ClInclude Include="image\Image.h">
       <Filter>image</Filter>
     </ClInclude>
   </ItemGroup>

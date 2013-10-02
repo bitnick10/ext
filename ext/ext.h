@@ -8,10 +8,8 @@
 
 //image headers
 #include "image/RGBAColor.h"
-#include "image/RGBAImage.h"
-#include "image/GrayImage.h"
 #include "image/Coord.h"
-#include "image/Conv.h"
+#include "image/Image.h"
 
 //math headers
 #include "math/Matrix.h"

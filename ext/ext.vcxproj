@@ -63,9 +63,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ext.h" />
-    <ClInclude Include="image\Conv.h" />
+    <ClInclude Include="image\BWImage.h" />
     <ClInclude Include="image\Coord.h" />
     <ClInclude Include="image\GrayImage.h" />
+    <ClInclude Include="image\Image.h" />
     <ClInclude Include="image\RGBAColor.h" />
     <ClInclude Include="image\RGBAImage.h" />
     <ClInclude Include="math\Matrix.h" />
