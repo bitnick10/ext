@@ -51,24 +51,15 @@ public:
     }
 public:
     // constrcutor
-    Matrix() : width(0), height(0), data(nullptr) {
+    Matrix() : width(0), height(0), data(nullptr) {}
+    Matrix(Matrix& matrix)  {
+        init(matrix.data, matrix.width, matrix.height);
     }
-    Matrix(Matrix& matrix) : width(matrix.width), height(matrix.height) {
-        int size = Size();
-        this->data = (T*)malloc();
-        assert(this->data);
-        memcpy(this->data, matrix.data, size);
+    Matrix(int width, int height) {
+        init(width, height);
     }
-    Matrix(int width, int height) : width(width), height(height) {
-        int size = Size();
-        this->data = (T*)malloc(size);
-        assert(this->data);
-    }
-    Matrix(T* data, int width, int height) : width(width), height(height) {
-        int size = Size();
-        this->data = (T*)malloc(size);
-        assert(this->data);
-        memcpy(this->data, data, size);
+    Matrix(void* data, int width, int height)  {
+        init(data, width, height);
     }
     ~Matrix() {
         destruct();
@@ -81,7 +72,7 @@ protected:
         data = (T*)malloc(size);
         assert(data);
     }
-    void init(T* data, int width, int height) {
+    void init(void* data, int width, int height) {
         this->width = width;
         this->height = height;
         int size = Size();
@@ -262,44 +253,6 @@ public:
         decltype(m1.data[0]*m2.data[0]) ret = (*p1) * (*p2);
         FOR(m1.getWidth()*m1.getHeight() - 1) {
             ret += (*++p1) * (*++p2);
-        }
-        return ret;
-    }
-    static Matrix<T> SobelFilterX(Matrix<T>& matrix) {
-        char mat[] = {
-            -1, 0, 1,
-            -2, 0, 2,
-            -1, 0, 1
-        };
-        Matrix<char> filter(mat, 3, 3);
-        Matrix<T> ret(matrix.width, matrix.height);
-        for(int y = 0; y < ret.height - 2; y++) {
-            for(int x = 0; x < ret.width - 2; x++) {
-                Matrix<T> sub = Sub(matrix, x, y, 3, 3);
-                int int_value = ProductOne(sub, filter) >> 3;
-                int abs_value = abs(int_value);
-                T value = (byte)(abs_value);
-                ret.SetElement(x, y, value);
-            }
-        }
-        return ret;
-    }
-    static Matrix<T> SobelFilterY(Matrix<T>& matrix) {
-        char mat[] = {
-            -1, -2, -1,
-            0, 0, 0,
-            1, 2, 1
-        };
-        Matrix<char> filter(mat, 3, 3);
-        Matrix<T> ret(matrix.width, matrix.height);
-        for(int y = 0; y < ret.height - 2; y++) {
-            for(int x = 0; x < ret.width - 2; x++) {
-                Matrix<T> sub = Sub(matrix, x, y, 3, 3);
-                int int_value = ProductOne(sub, filter) >> 3;
-                int abs_value = abs(int_value);
-                T value = (byte)(abs_value);
-                ret.SetElement(x, y, value);
-            }
         }
         return ret;
     }

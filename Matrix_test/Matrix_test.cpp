@@ -1,5 +1,7 @@
 #include <ext/ext.h>
+
 USING_NS_EXT
+
 void debug() {
 }
 

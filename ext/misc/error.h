@@ -4,7 +4,7 @@
 #include <iostream>
 using namespace std;
 
-class Error final {
+class Error {
 public:
     // singleton property
     static Error * getInstance() {

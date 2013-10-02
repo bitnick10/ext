@@ -1,6 +1,5 @@
 #include <ext/ext.h>
 
-#include <iterator>
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -9,8 +8,12 @@ USING_NS_EXT
 
 void debug() {
     Image<RGBA> image("C:\\plane.bmp");
-    //RGBAImage<byte> rgbaImage("C:\\plane.bmp");
-    ////RGBAImage<byte> rgbaImage("img/Lena.bmp");
+	Image<Gray> grayImage=image;
+	//
+	grayImage = BlackWhite(grayImage);
+	grayImage.SaveAs("C:\\blackwhite.bmp");
+    //Image<RGBA> rgbaImage("C:\\plane.bmp");
+    ////Image<RGBA> rgbaImage("img/Lena.bmp");
     ////rgbaImage.SaveAs("C:\\r.bmp");
     ////return;
     //GrayImage<byte> grayImage = GRAY_IMAGE(rgbaImage) ;
@@ -19,14 +22,14 @@ void debug() {
     //x.SaveAs("C:\\result_x.bmp");
     //GrayImage<byte> y = Matrix<byte>::SobelFilterY(grayImage);
     //y.SaveAs("C:\\result_y.bmp");
-    //RGBAImage<byte> reader("C:\\r.bmp");
+    //Image<RGBA> reader("C:\\r.bmp");
     //reader.SaveAs("C:\\r2.bmp");
 }
 
 void main() {
     debug();
-    Describe("GrayImage<byte>", []() {
-        It("should convert from RGBAImage<byte>", []() {
+    Describe("Image<Gray>", []() {
+        It("should convert from Image<RGBA>", []() {
             Image<RGBA> rgbaImage("img/rgbw_2x2.bmp");
             Image<Gray> grayImage = rgbaImage ;
             Expect((int)grayImage.GetElement(0, 0)).ToBe(75);
@@ -35,7 +38,7 @@ void main() {
             Expect((int)grayImage.GetElement(1, 1)).ToBe(255);
         });
     });
-    Describe("RGBAImage<byte>", []() {
+    Describe("Image<RGBA>", []() {
         It("should convert from GrayImage<byte>", []() {
             Image<RGBA> rgbaImage("img/rgbw_2x2.bmp");
             Image<Gray> grayImage = rgbaImage ;
@@ -62,9 +65,9 @@ void main() {
                 Expect(image.GetElement(0, 0)).ToBe(RGBAColor<byte>(225, 138, 128, 255));
             });
             It("should be able to indexof sub image", [&image]() {
-                RGBAImage<byte> sub1("img/IndexOf/sub1.bmp");
-                RGBAImage<byte> sub2("img/IndexOf/sub2.bmp");
-                RGBAImage<byte> sub3("img/IndexOf/sub3.bmp");
+                Image<RGBA> sub1("img/IndexOf/sub1.bmp");
+                Image<RGBA> sub2("img/IndexOf/sub2.bmp");
+                Image<RGBA> sub3("img/IndexOf/sub3.bmp");
                 Expect(image.IndexOf(sub1)).ToBe(Coord<short>(0, 0));
                 Expect(image.IndexOf(sub2)).ToBe(Coord<short>(1, 500));
                 Expect(image.IndexOf(sub3)).ToBe(Coord<short>(122, 237));
@@ -74,11 +77,11 @@ void main() {
     });
 
     Benchmark("read lene.bmp", []() {
-        RGBAImage<byte> image("img/Lena.bmp");
+        Image<RGBA> image("img/Lena.bmp");
     });
     Benchmark("indexof lene.bmp", []() {
-        RGBAImage<byte> sub3("img/IndexOf/sub3.bmp");
-        RGBAImage<byte> image("img/Lena.bmp");
+        Image<RGBA> sub3("img/IndexOf/sub3.bmp");
+        Image<RGBA> image("img/Lena.bmp");
         image.IndexOf(sub3);
     });
 }

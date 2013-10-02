@@ -63,12 +63,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ext.h" />
-    <ClInclude Include="image\BWImage.h" />
     <ClInclude Include="image\Coord.h" />
     <ClInclude Include="image\GrayImage.h" />
     <ClInclude Include="image\Image.h" />
     <ClInclude Include="image\RGBAColor.h" />
     <ClInclude Include="image\RGBAImage.h" />
+    <ClInclude Include="math\GrayImage.h" />
     <ClInclude Include="math\Matrix.h" />
     <ClInclude Include="misc\console.h" />
     <ClInclude Include="misc\error.h" />
@@ -81,10 +81,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

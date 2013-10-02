@@ -13,6 +13,7 @@
 
 //math headers
 #include "math/Matrix.h"
+#include "math/GrayImage.h"
 
 // test headers
 #include "test/spec.h"

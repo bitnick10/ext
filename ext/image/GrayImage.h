@@ -17,14 +17,10 @@ public:
     typedef Matrix<T> Base;
 public:
     GrayImage(): Base() {}
-	GrayImage(int width,int height):Base(width,height){}
-	GrayImage(Matrix<T>& matrix):Base(matrix){}
-	GrayImage& operator =(Matrix<T>& matrix){
-		Base::operator=(matrix);
-		return *this;
-	}
-	void SaveAs(char* filename){
-		int spectrum = 3;
+    GrayImage(int width, int height): Base(width, height) {}
+
+    void SaveAs(char* filename) {
+        int spectrum = 3;
         int offset = 4 - spectrum * Base::width & 0x3;
         int data_size = width * height * spectrum + offset * height;
 
@@ -50,7 +46,7 @@ public:
 
         byte* image_data =  (byte*)malloc(data_size);
         assert(image_data);
-		byte* writer = image_data;
+        byte* writer = image_data;
 
         fstream file(filename, ios::out | ios::binary);
         file.write((char*)&file_header, sizeof(BITMAPFILEHEADER));
@@ -68,7 +64,7 @@ public:
         }
         file.write((char*)image_data, height * width * spectrum);
         file.close();
-	}
+    }
 };
 
 NS_EXT_END

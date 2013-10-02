@@ -2,61 +2,63 @@
 #define EXT__IMAGE__IMAGE_H
 
 #include "../misc/macros.h"
-#include "BWImage.h"
 #include "GrayImage.h"
 #include "RGBAImage.h"
 
 NS_EXT_BEGIN
 
-#define RGBA RGBAImage<byte>
 #define BW BWImage
 #define Gray GrayImage<byte>
+#define RGBA RGBAImage<byte>
 
-template<typename XXImage>
-class Image: public XXImage {
+template<typename T>
+class Image: public T {
 public:
-    Image(): XXImage {}
-    Image(char* filename): XXImage(filename) {}
+    Image(): T {}
     Image(Image<RGBA>& image) {
         operator=(image);
     }
+    Image(Image<Gray>& image) {
+        operator=(image);
+    }
+    Image(char* filename): T(filename) {}
+    Image(int width, int height): T(width, height) {}
 
-    Image& operator=(Image<RGBA>& image) {
-        if(typeid(XXImage) == typeid(RGBA)) {
-			assert(false);
+    Image& operator=(Image<Gray>& image) {
+        if(typeid(T) == typeid(Gray)) {
             destruct();
-            //init(image.GetDataPointer(),width,height);
-        }  else if(typeid(XXImage) == typeid(Gray)) { // RGBA to Gray
+            init(image.data, image.getWidth(), image.getHeight());
+        } else if(typeid(T) == typeid(RGBA)) { // Gary to RGBA
             destruct();
             init(image.getWidth(), image.getHeight());
-            byte* p = data;
-            RGBAColor<byte>* p1 = image.data;
+            RGBAColor<byte>* p = (RGBAColor<byte>*)data;
+            byte* src = image.data;
             FOR(width * height) {
-                *p = p1->ToGray();
+                p->R = *src;
+                p->G = *src;
+                p->B = *src;
+                p->A = (byte)~(byte)0;
                 p++;
-                p1++;
+                src++;
             }
         } else {
             assert(false);
         }
         return *this;
     }
-    Image& operator=(Image<Gray>& image) {
-        if(typeid(XXImage) == typeid(Gray)) {
-			assert(false);
+    Image& operator=(Image<RGBA>& image) {
+        if(typeid(T) == typeid(RGBA)) {
             destruct();
-        } else if(typeid(XXImage) == typeid(RGBA)) {// Gary to RGBA
+            init(image.data, image.getWidth(), image.getHeight());
+        } else if(typeid(T) == typeid(Gray)) { // RGBA to Gray
             destruct();
-			init(image.getWidth(),image.getHeight());
-            RGBAColor<byte>* p = data;
-            byte* p1 = image.data;
+            init(image.getWidth(), image.getHeight());
+            byte* p = data;
+            RGBAColor<byte>* src = image.data;
             FOR(width * height) {
-                p->R = *p1;
-                p->G = *p1;
-                p->B = *p1;
-                p->A = (byte)~(byte)0;
+                *p = src->ToGray();
                 p++;
-                p1++;
+                src++;
             }
         } else {
             assert(false);
