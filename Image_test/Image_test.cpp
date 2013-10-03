@@ -7,9 +7,11 @@
 USING_NS_EXT
 
 void debug() {
-    Image<RGBA> image("C:\\plane.bmp");
+    Image<RGBA> image("C:\\circle.bmp");
+	//image.SaveAs("C:\\circle2.bmp");
 	Image<Gray> grayImage=image;
-	//
+	
+	//cout <<grayImage[0][0];
 	Image<Black>  blackImage = grayImage;
 	blackImage.SaveAs("C:\\blackwhite.bmp");
     //Image<RGBA> rgbaImage("C:\\plane.bmp");

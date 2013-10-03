@@ -139,7 +139,7 @@ public:
             }
             writer += offset;
         }
-        file.write((char*)image_data, height * width * spectrum);
+        file.write((char*)image_data, data_size);
         file.close();
     }
 };

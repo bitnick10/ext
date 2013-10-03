@@ -15,6 +15,56 @@ class Matrix {
     PROTECTED_FILED_PUBLIC_GETTER(int , width, getWidth);
     PROTECTED_FILED_PUBLIC_GETTER(int , height, getHeight);
 public:
+    class Element {
+    public:
+        class ElementProxy {
+        public:
+            ElementProxy(T* data, int width, int x, int y) {
+                this->proxy_data = data;
+                this->width = width;
+                this->x = x;
+                this->y = y;
+            }
+            ElementProxy& operator=(ElementProxy& right) {
+                this->proxy_data[y * width + x] = right.proxy_data[y * width + x];
+                return *this;
+            }
+            ElementProxy& operator=(T value) {
+                this->proxy_data[y * width + x] = value;
+                return *this;
+            }
+            T operator[](int y) {
+                cout << "y" << endl;
+                return T(0);
+            }
+            operator T() const {
+                cout << "()" << endl;
+                return proxy_data[y * width + x];
+            }
+        private:
+            T* proxy_data;
+            int width;
+            int y;
+            int x;
+        };
+    public:
+        Element(T* data, int width, int x) {
+            this->element = data;
+            this->width = width;
+            this->x = x;
+        }
+        ElementProxy operator[](int y) {
+            return ElementProxy(element, width, x, y);
+        }
+    private:
+        T* element;
+        int width;
+        int x;
+    };
+    Element operator[](int x) {
+        return Element(data, width, x);
+    }
+public:
     T* data;
 public:
     T GetElement() const {
@@ -30,7 +80,10 @@ public:
         return data;
     }
     int Size() {
-        return width * height * sizeof(T);
+        return width * height;
+    }
+    int DataSize() {
+        return Size() * sizeof(T);
     }
     void SetElement(int x, int y, T& value) {
         T* p = GetDataPointer(x, y);
@@ -42,7 +95,7 @@ public:
     T MaxElement() {
         T* p = data;
         T max = *p;
-        FOR(width * height - 1) {
+        FOR(Size() - 1) {
             if(max < *++p) {
                 max = *p;
             }
@@ -68,17 +121,17 @@ protected:
     void init(int width, int height) {
         this->width = width;
         this->height = height;
-        int size = Size();
-        data = (T*)malloc(size);
+        int data_size = DataSize();
+        data = (T*)malloc(data_size);
         assert(data);
     }
     void init(void* data, int width, int height) {
         this->width = width;
         this->height = height;
-        int size = Size();
-        this->data = (T*)malloc(size);
+        int data_size = DataSize();
+        this->data = (T*)malloc(data_size);
         assert(this->data);
-        memcpy(this->data, data, size);
+        memcpy(this->data, data, data_size);
     }
     void destruct() {
         if(this->data != nullptr) {
@@ -97,19 +150,19 @@ public:
     bool operator !=(Matrix& right) {
         return !(*this == right);
     }
-    Matrix& operator =(const Matrix& right) {
+    Matrix& operator =(Matrix& right) {
         this->~Matrix();
         this->width = right.width;
         this->height = right.height;
-        int size = this->width * this->height * sizeof(T);
-        this->data = (T*)malloc(size);
+        int data_size = DataSize();
+        this->data = (T*)malloc(data_size);
         assert(this->data != nullptr);
-        memcpy(this->data, right.data, size);
+        memcpy(this->data, right.data, data_size);
         return *this;
     }
     friend ostream& operator<<(ostream& o, const Matrix& matrix) {
         T* data = matrix.data;
-        FOR( matrix.width * matrix.height - 1 ) {
+        FOR( Size() - 1 ) {
             o << *data++ << ",";
         }
         o << *data++;

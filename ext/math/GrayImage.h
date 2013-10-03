@@ -52,7 +52,5 @@ Image<GrayImage<T>> SobelFilterY(Image<GrayImage<T>>& image) {
     return ret;
 }
 
-
-
 NS_EXT_END
 #endif
