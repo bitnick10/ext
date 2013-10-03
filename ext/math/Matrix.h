@@ -70,6 +70,9 @@ public:
     T GetElement() const {
         return data[0];
     }
+    T GetElement(Coord<short>& coord) const {
+        return GetElement(coord.X, coord.Y);
+    }
     T GetElement(int x, int y) const {
         return data[y * width + x];
     }

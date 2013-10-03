@@ -29,14 +29,17 @@ public:
     Image(int width, int height): T(width, height) {}
 public:
     Image& operator=(Image<Black>& image) {
-		 if(typeid(T) == typeid(Gray)) { //Black to Gray
-			 assert(false);
+        if(typeid(T) == typeid(Black)) {
             destruct();
             init(image.data, image.getWidth(), image.getHeight());
-		 } else{
-			 assert(false);
-		 }
-		 return *this;
+        } else if(typeid(T) == typeid(Gray)) { //Black to Gray
+            assert(false);
+            destruct();
+            init(image.data, image.getWidth(), image.getHeight());
+        } else {
+            assert(false);
+        }
+        return *this;
     }
     Image& operator=(Image<Gray>& image) {
         if(typeid(T) == typeid(Gray)) {
@@ -48,7 +51,7 @@ public:
             byte* dst = (byte*)data;
             byte* src = image.data;
             FOR(width * height) {
-				*src > (255 >> 1) ? *dst = WhiteColor : *dst = BlackColor;
+                *src > (255 >> 1) ? *dst = WhiteColor : *dst = BlackColor;
                 dst++;
                 src++;
             }

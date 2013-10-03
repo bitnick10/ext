@@ -69,8 +69,10 @@
     <ClInclude Include="image\Image.h" />
     <ClInclude Include="image\RGBAColor.h" />
     <ClInclude Include="image\RGBAImage.h" />
+    <ClInclude Include="math\BlackImage.h" />
     <ClInclude Include="math\GrayImage.h" />
     <ClInclude Include="math\Matrix.h" />
+    <ClInclude Include="math\Set.h" />
     <ClInclude Include="misc\console.h" />
     <ClInclude Include="misc\error.h" />
     <ClInclude Include="misc\log.h" />

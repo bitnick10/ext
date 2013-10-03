@@ -18,6 +18,8 @@ template<typename T>
 class BlackImage : public Matrix<T> {
     typedef Matrix<T> Base;
 public:
+    BlackImage(): Base() {}
+    BlackImage(int width, int height): Base(width, height) {}
     void SaveAs(char* filename) {
         int spectrum = 3;
         int offset = 4 - spectrum * Base::width & 0x3;

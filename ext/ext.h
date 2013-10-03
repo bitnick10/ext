@@ -12,7 +12,9 @@
 #include "image/Image.h"
 
 //math headers
+#include "math/Set.h"
 #include "math/Matrix.h"
+#include "math/BlackImage.h"
 #include "math/GrayImage.h"
 
 // test headers

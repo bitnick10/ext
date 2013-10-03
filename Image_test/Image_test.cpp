@@ -7,13 +7,15 @@
 USING_NS_EXT
 
 void debug() {
-    Image<RGBA> image("C:\\circle.bmp");
+    Image<RGBA> image("C:\\plane.bmp");
 	//image.SaveAs("C:\\circle2.bmp");
-	Image<Gray> grayImage=image;
-	
+	Image<Black> blackImage=image;
+	blackImage.SaveAs("C:\\plane1.bmp");
+	blackImage = Erosion(blackImage);
+	blackImage.SaveAs("C:\\plane2.bmp");
 	//cout <<grayImage[0][0];
-	Image<Black>  blackImage = grayImage;
-	blackImage.SaveAs("C:\\blackwhite.bmp");
+	//Image<Black>  blackImage = grayImage;
+	//blackImage.SaveAs("C:\\blackwhite.bmp");
     //Image<RGBA> rgbaImage("C:\\plane.bmp");
     ////Image<RGBA> rgbaImage("img/Lena.bmp");
     ////rgbaImage.SaveAs("C:\\r.bmp");

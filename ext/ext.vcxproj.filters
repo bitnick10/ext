@@ -74,6 +74,12 @@
     <ClInclude Include="image\BlackImage.h">
       <Filter>image</Filter>
     </ClInclude>
+    <ClInclude Include="math\BlackImage.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\Set.h">
+      <Filter>math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
