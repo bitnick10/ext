@@ -52,17 +52,7 @@ Image<GrayImage<T>> SobelFilterY(Image<GrayImage<T>>& image) {
     return ret;
 }
 
-Image<Gray> BlackWhite(Image<Gray>& image) {
-    Image<Gray> ret(image.getWidth(), image.getHeight());
-    byte* dst = (byte*)ret.data;
-    byte* src = image.data;
-    FOR(ret.getWidth()* ret.getHeight()) {
-        *src > (255 >> 1) ? *dst = 255 : *dst = 0;
-        dst++;
-        src++;
-    }
-	return ret;
-}
+
 
 NS_EXT_END
 #endif

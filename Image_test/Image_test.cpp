@@ -10,8 +10,8 @@ void debug() {
     Image<RGBA> image("C:\\plane.bmp");
 	Image<Gray> grayImage=image;
 	//
-	grayImage = BlackWhite(grayImage);
-	grayImage.SaveAs("C:\\blackwhite.bmp");
+	Image<Black>  blackImage = grayImage;
+	blackImage.SaveAs("C:\\blackwhite.bmp");
     //Image<RGBA> rgbaImage("C:\\plane.bmp");
     ////Image<RGBA> rgbaImage("img/Lena.bmp");
     ////rgbaImage.SaveAs("C:\\r.bmp");

@@ -68,7 +68,7 @@ protected:
     void init(int width, int height) {
         this->width = width;
         this->height = height;
-        int size = width * height * sizeof(T);
+        int size = Size();
         data = (T*)malloc(size);
         assert(data);
     }
